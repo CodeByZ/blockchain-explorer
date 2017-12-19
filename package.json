@@ -4,13 +4,11 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --port 80 --open true",
+    "build": "ng build -sm",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "explorer-build": "node_modules/.bin/ng build -sm",
-    "explorer-serve": "node_modules/.bin/ng serve --port 2009 --open true"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

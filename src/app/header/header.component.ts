@@ -19,16 +19,16 @@ export class HeaderComponent implements OnInit {
     public username: string = 'Administrator';
     public password: string = 'Administrator';
     public searchText: string = '';
-    public isLoggedIn: boolean = false;
+    public isConnected: boolean = false;
     public isHealthy: boolean = false;
 
     constructor(private clientService: ClientServiceService, private router: Router,
                 private modalBoxService: ModalBoxService, private windowRefService: WindowRefService,
                 private nuxeoServerService: NuxeoServerService, private healthCheckService: HealthCheckService) {
 
-        clientService.getLoginObservable().subscribe(isLoggedIn => {
-            this.isLoggedIn = isLoggedIn;
-            if (this.isLoggedIn) {
+        clientService.getLoginObservable().subscribe(isConnected => {
+            this.isConnected = isConnected;
+            if (this.isConnected) {
                 this.baseUrl = this.clientService.getBaseUrl();
                 router.navigate(['home']);
             }
@@ -48,13 +48,13 @@ export class HeaderComponent implements OnInit {
         this.healthCheckService.start();
     }
 
-    public doLogin(): void {
-        this.clientService.login(this.baseUrl, this.username, this.password).then(() => {
+    public connect(): void {
+        this.clientService.connect(this.baseUrl, this.username, this.password).then(() => {
         });
     }
 
-    public doLogout(): void {
-        this.clientService.logout();
+    public disconnect(): void {
+        this.clientService.disconnect();
     }
 
     public runSearch() {

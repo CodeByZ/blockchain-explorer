@@ -26,12 +26,12 @@ export class ClientServiceService {
 
             if (credentials) {
                 const credsObj = JSON.parse(credentials);
-                this.login(credsObj.baseURL, credsObj.username, credsObj.password);
+                this.connect(credsObj.baseURL, credsObj.username, credsObj.password);
             }
         });
     }
 
-    public logout() {
+    public disconnect() {
 
         this.zone.run(() => {
             this.localStorage.removeItem('credentials');
@@ -39,7 +39,7 @@ export class ClientServiceService {
         });
     }
 
-    public login(baseURL: string, username: string, password: string): Promise<void> {
+    public connect(baseURL: string, username: string, password: string): Promise<void> {
 
         this.username = username;
         this.password = password;

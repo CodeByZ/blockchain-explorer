@@ -8,7 +8,7 @@
         <img src="assets/android-icon-36x36.png" alt="Kmping">
         <div class="brand-name">Kmping</div>
     </a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isLoggedIn">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isConnected">
         <ul class="navbar-nav mr-auto">
             <li class="dropdown">
                 <button class="btn dropdown-toggle" id="dropdown2" data-toggle="dropdown" aria-haspopup="true"
@@ -80,12 +80,12 @@
             </div>
             <label class="username disabled">{{username}}</label>
             <div class="form-group">
-                <button class="btn btn-outline-danger" id="logoutBtn" (click)="doLogout()">Logout</button>
+                <button class="btn btn-outline-danger" id="logoutBtn" (click)="disconnect()">Disconnect</button>
             </div>
         </form>
     </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="!isLoggedIn">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="!isConnected">
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline">
@@ -94,7 +94,7 @@
                    [(ngModel)]="username">
             <input class="form-control mr-sm-2" type="text" placeholder="Password" name="password"
                    [(ngModel)]="password">
-            <button class="btn btn-outline-success my-2 my-sm-0" (click)="doLogin()">Login</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" (click)="connect()">Connect</button>
         </form>
     </div>
 </nav>
