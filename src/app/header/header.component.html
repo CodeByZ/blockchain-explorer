@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-light fixed-top" [ngClass]="{'bg-faded': isHealthy, 'bg-warning': !isHealthy}">
+<nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-light fixed-top"
+     [ngClass]="{'bg-faded': isHealthy, 'bg-warning': !isHealthy}">
+
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -69,7 +71,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="openBaseUrl()">{{baseUrl}}</a>
+                <a class="nav-link" (click)="openBaseUrl()">{{jsonRpcHost}}</a>
             </li>
         </ul>
 
@@ -89,11 +91,10 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="text" placeholder="KMPS url" name="baseUrl" [(ngModel)]="baseUrl">
-            <input class="form-control mr-sm-2" type="text" placeholder="Username" name="username"
-                   [(ngModel)]="username">
-            <input class="form-control mr-sm-2" type="text" placeholder="Password" name="password"
-                   [(ngModel)]="password">
+            <input class="form-control mr-sm-2" type="text" placeholder="RPC host" name="jsonRpcHost" [(ngModel)]="jsonRpcHost">
+            <input class="form-control mr-sm-2" type="text" placeholder="RPC port" name="jsonRpcPort" [(ngModel)]="jsonRpcPort">
+            <input class="form-control mr-sm-2" type="text" placeholder="Username" name="username" [(ngModel)]="username">
+            <input class="form-control mr-sm-2" type="text" placeholder="Password" name="password" [(ngModel)]="password">
             <button class="btn btn-outline-success my-2 my-sm-0" (click)="connect()">Connect</button>
         </form>
     </div>

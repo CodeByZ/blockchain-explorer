@@ -15,9 +15,10 @@ import {HealthCheckService} from "../health-check.service";
 })
 export class HeaderComponent implements OnInit {
 
-    public baseUrl: string = 'http://localhost:8080/nuxeo/';
-    public username: string = 'Administrator';
-    public password: string = 'Administrator';
+    public jsonRpcHost: string = '192.168.1.9';
+    public jsonRpcPort: number = 1972;
+    public username: string = 'bitcoinrpc';
+    public password: string = 'rpc##PA%%wo1D';
     public searchText: string = '';
     public isConnected: boolean = false;
     public isHealthy: boolean = false;
@@ -29,7 +30,7 @@ export class HeaderComponent implements OnInit {
         clientService.getLoginObservable().subscribe(isConnected => {
             this.isConnected = isConnected;
             if (this.isConnected) {
-                this.baseUrl = this.clientService.getBaseUrl();
+                this.jsonRpcHost = this.clientService.getBaseUrl();
                 router.navigate(['home']);
             }
             else {
@@ -49,8 +50,7 @@ export class HeaderComponent implements OnInit {
     }
 
     public connect(): void {
-        this.clientService.connect(this.baseUrl, this.username, this.password).then(() => {
-        });
+        this.clientService.connect(this.jsonRpcHost, this.username, this.password).then();
     }
 
     public disconnect(): void {
@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
     }
 
     public openBaseUrl() {
-        this.windowRefService.nativeWindow.open(this.baseUrl, "_blank");
+        this.windowRefService.nativeWindow.open(this.jsonRpcHost, "_blank");
     }
 
     public restartServer() {
