@@ -1,0 +1,48 @@
+:host {
+    .dropdown-toggle {
+        background: none;
+        cursor: pointer;
+    }
+
+    a {
+        cursor: pointer;
+
+        &.navbar-brand {
+            margin-bottom: -2px;
+            padding: 0;
+
+            img {
+                margin-top: -4px;
+            }
+        }
+    }
+
+    .brand-name {
+        display: inline-block;
+        color: #000140;
+        font-weight: bold;
+    }
+
+    .status-indicator {
+
+        margin-right: 20px;
+
+        .offline {
+            font-weight: bold;
+            color: red;
+            line-height: 30px;
+        }
+
+        .online {
+            font-weight: bold;
+            color: green;
+            line-height: 30px;
+        }
+
+    }
+
+    .username {
+        margin-right: 20px;
+    }
+
+}

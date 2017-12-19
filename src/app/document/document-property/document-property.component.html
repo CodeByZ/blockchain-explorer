@@ -1,0 +1,7 @@
+<div>
+    {{propertyValue}}
+    <span class="icons">
+      <a class="action-icon-link" title="Copy value" ngxClipboard (click)="copyToClipboard(propertyValue)"
+         [cbContent]="propertyValue"><i class="fa fa-clone"></i></a>
+  </span>
+</div>

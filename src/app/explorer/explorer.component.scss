@@ -1,0 +1,26 @@
+.explorer-split {
+    height: calc(100vh - 80px);
+
+    split-area {
+        padding: 10px;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    .context-menu {
+
+        position: absolute;
+        display: none;
+        z-index: 100;
+
+        &.visible {
+            display: block;
+        }
+
+        a {
+            cursor: pointer;
+        }
+    }
+}

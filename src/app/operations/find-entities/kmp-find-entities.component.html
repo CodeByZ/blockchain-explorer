@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="jumbotron">
+        <h4 class="text-center">Find Entities</h4>
+        <p>&nbsp;</p>
+        <div class="container">
+            <div class="form-group row">
+                <label for="parent-ids" class="col-2 col-form-label" data-role="tagsinput">Parent IDs</label>
+                <div class="col-10">
+                    <div class="input-clear-group">
+                        <tag-input class="form-control" [(ngModel)]="parentIds" id="parent-ids" theme="minimal"
+                                   secondaryPlaceholder="Document id(s)..."
+                                   placeholder="You can add more..."></tag-input>
+                        <i *ngIf="parentIds.length" class="clear-input fa fa-remove" (click)="clearParentIds()"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="keywords" class="col-2 col-form-label">Keywords</label>
+                <div class="col-10">
+                    <div class="input-clear-group">
+                        <tag-input class="form-control" [(ngModel)]="keywords" id="keywords" theme="minimal"
+                                   secondaryPlaceholder="Identifier value(s)..."
+                                   placeholder="You can add more..."></tag-input>
+                        <i *ngIf="keywords.length" class="clear-input fa fa-remove" (click)="clearKeywords()"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="document-type" class="col-2 col-form-label">Document Type</label>
+                <div class="col-10">
+                    <select class="form-control" id="document-type" [(ngModel)]="documentType">
+                        <option *ngFor="let entityType of entityTypes" [ngValue]="entityType.value">{{entityType.display}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row justify-content-end">
+                <div class="col-10">
+                    <button class="btn btn-outline-success btn-block"
+                            [disabled]="!(parentIds.length && keywords.length && documentType)"
+                            (click)="findEntities()">Find
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row justify-content-end">
+            <div class="col-10">
+                <p>&nbsp;</p>
+                <h5 class="text-center" *ngIf="searchCount > 0">Searching... <i class="fa fa-refresh fa-spin fa-fw"></i></h5>
+                <h5 class="text-center animated fadeInDown" *ngIf="searchExecuted && !enrichmentData.length && searchCount == 0">No entities found <i class="fa fa-frown-o" aria-hidden="true"></i></h5>
+                <h5 class="text-center animated fadeInDown" *ngIf="!searchExecuted">Let's find some entities <i class="fa fa-search" aria-hidden="true"></i></h5>
+                <h5 class="text-center animated fadeInDown" *ngIf="enrichmentData.length && searchCount == 0">Found {{enrichmentData.length}} entities<span *ngIf="enrichmentData.length > 1">s</span> <i class="fa fa-smile-o" aria-hidden="true"></i></h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron" *ngIf="enrichmentData.length">
+        <accordion>
+            <accordion-group *ngFor="let enrichment of enrichmentData" heading="{{enrichment.keyword}}" [isOpen]="true">
+                <table class="table table-hover table-sm">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>First</th>
+                        <th>Middle</th>
+                        <th>Last</th>
+                        <th class="w-50">UID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let personEnrichment of enrichment.results">
+                        <td>{{personEnrichment.documentType}}</td>
+                        <td>{{personEnrichment.firstName}}</td>
+                        <td>{{personEnrichment.middleName}}</td>
+                        <td>{{personEnrichment.lastName}}</td>
+                        <td>
+                            <document-id [id]="personEnrichment.id"></document-id>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </accordion-group>
+        </accordion>
+    </div>
+
+</div>

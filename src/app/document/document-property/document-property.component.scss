@@ -1,0 +1,15 @@
+:host {
+    .icons {
+        display: none;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    &:hover {
+        .icons {
+            display: inline-block;
+        }
+    }
+}

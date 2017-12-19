@@ -1,0 +1,29 @@
+<div class="explorer-split">
+    <split direction="horizontal" (dragEnd)="onDragEnd(-1, $event)">
+        <split-area [size]="config.columns[0].size" *ngIf="config.columns[0].visible">
+            <div class="controls">
+                <button title="Expand all" class="btn btn-outline-secondary btn-sm" (click)="tree.treeModel.expandAll()">
+                    <i class="fa fa-expand" aria-hidden="true"></i>
+                </button>
+                <button title="Collapse all" class="btn btn-outline-secondary btn-sm" (click)="tree.treeModel.collapseAll()">
+                    <i class="fa fa-compress" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="tree">
+                <tree-root #tree [focused]="false" [nodes]="nodes" [options]="treeOptions" (activate)="nodeClicked($event)">
+                    <ng-template #treeNodeTemplate let-node let-index="index">
+                        <span><i class="fa" [ngClass]="node.data.class" aria-hidden="true"></i> {{ node.data.name }}</span>
+                        <i *ngIf="node.data.loading" class="fa fa-refresh fa-spin fa-fw"></i>
+                    </ng-template>
+                </tree-root>
+            </div>
+            <div class="dropdown-menu context-menu" #contextMenu>
+                <a class="dropdown-item" (click)="refreshNode()">Refresh node</a>
+                <a class="dropdown-item" (click)="refreshChildren()">Refresh children</a>
+            </div>
+        </split-area>
+        <split-area [size]="config.columns[1].size" *ngIf="config.columns[1].visible">
+            <kmp-document *ngIf="selectedDocument" [document]="selectedDocument.document"></kmp-document>
+        </split-area>
+    </split>
+</div>
