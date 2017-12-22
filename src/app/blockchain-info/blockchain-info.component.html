@@ -1,7 +1,108 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <!--<app-data-table [data]="versionData" displayName="Versions"></app-data-table>-->
+            <div *ngIf="!blockchainInfo" class="h4 text-center animated bounceIn">
+                Loading... <i class="fa fa-cog fa-spin fa-fw"></i>
+            </div>
+            <div *ngIf="blockchainInfo" class="animated fadeIn">
+                <div class="card">
+                    <h5 class="card-header bg-info text-white">Basic Info</h5>
+                    <div class="card-block">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Chain</td>
+                                <td>{{blockchainInfo.chain}}</td>
+                            </tr>
+                            <tr>
+                                <td>Blocks</td>
+                                <td>{{blockchainInfo.blocks | number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Headers</td>
+                                <td>{{blockchainInfo.headers | number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Difficulty</td>
+                                <td>{{+blockchainInfo.difficulty | number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Median Time</td>
+                                <td>{{blockchainInfo.mediantime | number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Verification Progress</td>
+                                <td>{{+blockchainInfo.verificationprogress}}</td>
+                            </tr>
+                            <tr>
+                                <td>Best Block Hash</td>
+                                <td>{{blockchainInfo.bestblockhash}}</td>
+                            </tr>
+                            <tr>
+                                <td>Chain Work</td>
+                                <td>{{blockchainInfo.chainwork}}</td>
+                            </tr>
+                            <tr>
+                                <td>Pruned</td>
+                                <td>{{blockchainInfo.pruned}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <h5 class="card-header bg-info text-white">Soft Forks</h5>
+                    <div class="card-block">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Version</th>
+                                <th>Reject Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let fork of blockchainInfo.softforks">
+                                <td>{{fork.id}}</td>
+                                <td>{{fork.version}}</td>
+                                <td>{{fork.reject.status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <h5 class="card-header bg-info text-white">BIP 9 Forks</h5>
+                    <div class="card-block">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Start Time</th>
+                                <th>Timeout</th>
+                                <th>Since</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let key of getBip9Keys()">
+                                <td>{{key}}</td>
+                                <td>{{blockchainInfo.bip9_softforks[key].status}}</td>
+                                <td>{{blockchainInfo.bip9_softforks[key].startTime | number}}</td>
+                                <td>{{blockchainInfo.bip9_softforks[key].timeout | number}}</td>
+                                <td>{{blockchainInfo.bip9_softforks[key].since | number}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
