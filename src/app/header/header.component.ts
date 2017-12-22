@@ -1,11 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ClientServiceService} from "../client-service.service";
-import {Router} from "@angular/router";
-import {WindowRefService} from "../window-ref.service";
-import {NuxeoServerService} from "../nuxeo-server.service";
+import {ConnectionStatus, RpcService} from "../rpc.service";
 import {ModalBoxService} from "../modal-box.service";
-import {PleaseWaitComponent} from "../please-wait/please-wait.component";
 import {HealthCheckService} from "../health-check.service";
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-header',
@@ -15,68 +12,60 @@ import {HealthCheckService} from "../health-check.service";
 })
 export class HeaderComponent implements OnInit {
 
-    public jsonRpcHost: string = '192.168.1.9';
-    public jsonRpcPort: number = 1972;
+    public host: string = '192.168.1.7';
+    public port: number = 1972;
+
     public username: string = 'bitcoinrpc';
     public password: string = 'rpc##PA%%wo1D';
-    public searchText: string = '';
-    public isConnected: boolean = false;
+
+    public connectedStatus: ConnectionStatus;
     public isHealthy: boolean = false;
 
-    constructor(private clientService: ClientServiceService, private router: Router,
-                private modalBoxService: ModalBoxService, private windowRefService: WindowRefService,
-                private nuxeoServerService: NuxeoServerService, private healthCheckService: HealthCheckService) {
+    constructor(private rpcService: RpcService, private router: Router, private modalBoxService: ModalBoxService,
+                private healthCheckService: HealthCheckService) {
+    }
 
-        clientService.getLoginObservable().subscribe(isConnected => {
-            this.isConnected = isConnected;
-            if (this.isConnected) {
-                this.jsonRpcHost = this.clientService.getBaseUrl();
-                router.navigate(['home']);
-            }
-            else {
-                router.navigate(['welcome']);
-            }
-        });
+    ngOnInit() {
+
+        this.rpcService.getConnectedObservable()
+            .subscribe(status => {
+
+                this.connectedStatus = status;
+
+                if (this.connectedStatus === ConnectionStatus.CONNECTED) {
+                    this.router.navigate(['home']).then();
+                }
+                else {
+                    this.router.navigate(['welcome']).then();
+                }
+            });
 
         this.healthCheckService.getHealthObservable().subscribe(
             isHealthy => {
                 this.isHealthy = isHealthy;
             }
         );
-    }
 
-    ngOnInit() {
         this.healthCheckService.start();
     }
 
     public connect(): void {
-        this.clientService.connect(this.jsonRpcHost, this.username, this.password).then();
+
+        this.rpcService.connect(this.host, this.port, this.username, this.password).then();
     }
 
     public disconnect(): void {
-        this.clientService.disconnect();
+
+        this.rpcService.disconnect().then();
     }
 
-    public runSearch() {
-        this.clientService.fetchDocumentById(this.searchText);
+    public isConnected(): boolean {
+
+        return this.connectedStatus === ConnectionStatus.CONNECTED;
     }
 
-    public openBaseUrl() {
-        this.windowRefService.nativeWindow.open(this.jsonRpcHost, "_blank");
-    }
+    public isConnecting(): boolean {
 
-    public restartServer() {
-        this.nuxeoServerService.restartServer().then(() => {
-            this.modalBoxService.showModal(PleaseWaitComponent, {
-                title: 'Restarting Server',
-                body: 'The server is now restarting. Please hang on until it comes back online.'
-            });
-        }).catch(err => {
-            this.modalBoxService.showModal(PleaseWaitComponent, {
-                title: 'Restart Failed',
-                body: 'Restarting the server has failed. Reason: ' + err
-            });
-        })
+        return this.connectedStatus === ConnectionStatus.CONNECTING;
     }
-
 }

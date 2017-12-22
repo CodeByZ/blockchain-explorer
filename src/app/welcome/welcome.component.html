@@ -1,5 +1,6 @@
 <div class="jumbotron text-center">
-  <h1 class="display-3">Welcome to the blockchain</h1>
-  <hr class="my-4">
-  <p class="lead">Please login to start exploring</p>
+    <h1 class="display-3">Welcome to the blockchain</h1>
+    <hr class="my-4">
+    <p class="lead" *ngIf="!isConnecting()">Please login to start exploring</p>
+    <p class="lead" *ngIf="isConnecting()">Connecting... <i class="fa fa-refresh fa-spin fa-fw"></i></p>
 </div>

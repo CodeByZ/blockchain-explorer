@@ -12,7 +12,7 @@
             <div class="tree">
                 <tree-root #tree [focused]="false" [nodes]="nodes" [options]="treeOptions" (activate)="nodeClicked($event)">
                     <ng-template #treeNodeTemplate let-node let-index="index">
-                        <span><i class="fa" [ngClass]="node.data.class" aria-hidden="true"></i> {{ node.data.name }}</span>
+                        <span><i class="fa" [ngClass]="node.data.className" aria-hidden="true"></i> {{ node.data.name }}</span>
                         <i *ngIf="node.data.loading" class="fa fa-refresh fa-spin fa-fw"></i>
                     </ng-template>
                 </tree-root>
@@ -23,7 +23,7 @@
             </div>
         </split-area>
         <split-area [size]="config.columns[1].size" *ngIf="config.columns[1].visible">
-            <kmp-document *ngIf="selectedDocument" [document]="selectedDocument.document"></kmp-document>
+            show data here...
         </split-area>
     </split>
 </div>

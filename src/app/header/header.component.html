@@ -1,84 +1,38 @@
 <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-light fixed-top"
      [ngClass]="{'bg-faded': isHealthy, 'bg-warning': !isHealthy}">
 
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand animated" routerLink="/home" [class.rubberBand]="mousehover" (mouseover)="mousehover=true" (mouseout)="mousehover=false">
-        <img src="assets/android-icon-36x36.png" alt="Kmping">
-        <div class="brand-name">Kmping</div>
+
+    <a class="navbar-brand animated" routerLink="/home" [class.rubberBand]="mousehover" (mouseover)="mousehover=true"
+       (mouseout)="mousehover=false">
+        <img src="assets/android-icon-36x36.png" alt="Xplorer">
+        <div class="brand-name">Xplorer</div>
     </a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isConnected">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isConnected()">
         <ul class="navbar-nav mr-auto">
             <li class="dropdown">
-                <button class="btn dropdown-toggle" id="dropdown2" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
+                <button class="btn dropdown-toggle" id="dropdown2" data-toggle="dropdown">
                     Documents
                 </button>
                 <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Find</h6>
                     <a class="dropdown-item" [routerLink]="['explore']">Explore</a>
                     <h6 class="dropdown-header">Find</h6>
-                    <a class="dropdown-item" >Search Elastic</a>
-                    <a class="dropdown-item" >Search Primary DB</a>
-                    <a class="dropdown-item" >Search By ID</a>
-                    <a class="dropdown-item" >Search By Property</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Other Operations</h6>
-                    <a class="dropdown-item" >Delete</a>
+                    <a class="dropdown-item" [routerLink]="['explore']">Explore</a>
                 </div>
-            </li>
-            <li class="dropdown">
-                <button class="btn dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Tools
-                </button>
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header">Logs</h6>
-                    <a class="dropdown-item" >Change Log Level</a>
-                    <a class="dropdown-item" >View Logs</a>
-                    <a class="dropdown-item" >Download Logs</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Debugging</h6>
-                    <a class="dropdown-item" >Open Debug Port</a>
-                    <a class="dropdown-item" >Close Debug Port</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <button class="btn dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Operations
-                </button>
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header">Search</h6>
-                    <a class="dropdown-item" [routerLink]="['kmp-find-entities']">Find Entities</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <button class="btn dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    System
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" [routerLink]="['/system-info']">System Info</a>
-                    <h6 class="dropdown-header">Server</h6>
-                    <a class="dropdown-item" (click)="restartServer()">Restart</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Cluster</h6>
-                    <a class="dropdown-item" >Scale</a>
-                    <a class="dropdown-item" >Run Command</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="openBaseUrl()">{{jsonRpcHost}}</a>
             </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
             <div class="status-indicator">
-                <div *ngIf="!isHealthy" class="nav-item offline blink" title="Disconnected"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></div>
-                <div *ngIf="isHealthy" class="nav-item online" title="Connected"><i class="fa fa-bolt" aria-hidden="true"></i></div>
+                <div *ngIf="!isHealthy" class="nav-item offline blink" title="Disconnected">
+                    <i class="fa fa-exclamation-circle"></i></div>
+                <div *ngIf="isHealthy" class="nav-item online" title="Connected">
+                    <i class="fa fa-bolt"></i>
+                </div>
             </div>
             <label class="username disabled">{{username}}</label>
             <div class="form-group">
@@ -87,15 +41,19 @@
         </form>
     </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="!isConnected">
+    <div class="collapse navbar-collapse" id="loginDetails" *ngIf="!isConnected()">
         <ul class="navbar-nav mr-auto">
         </ul>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="text" placeholder="RPC host" name="jsonRpcHost" [(ngModel)]="jsonRpcHost">
-            <input class="form-control mr-sm-2" type="text" placeholder="RPC port" name="jsonRpcPort" [(ngModel)]="jsonRpcPort">
-            <input class="form-control mr-sm-2" type="text" placeholder="Username" name="username" [(ngModel)]="username">
-            <input class="form-control mr-sm-2" type="text" placeholder="Password" name="password" [(ngModel)]="password">
-            <button class="btn btn-outline-success my-2 my-sm-0" (click)="connect()">Connect</button>
+            <fieldset [disabled]="isConnecting()">
+                <input class="form-control mr-sm-2" type="text" placeholder="RPC host" name="host" [(ngModel)]="host">
+                <input class="form-control mr-sm-2" type="text" placeholder="RPC port" name="port" [(ngModel)]="port">
+                <input class="form-control mr-sm-2" type="text" placeholder="Username" name="username"
+                       [(ngModel)]="username">
+                <input class="form-control mr-sm-2" type="text" placeholder="Password" name="password"
+                       [(ngModel)]="password">
+                <button class="btn btn-outline-success my-2 my-sm-0" (click)="connect()">Connect</button>
+            </fieldset>
         </form>
     </div>
 </nav>
