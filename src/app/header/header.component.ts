@@ -3,6 +3,7 @@ import {ModalBoxService} from "../modal-box.service";
 import {HealthCheckService} from "../health-check.service";
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {NotificationsService} from "../notifications.service";
 
 @Component({
     selector: 'app-header',
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit {
     public isHealthy: boolean = false;
 
     constructor(private rpcService: RpcService, private router: Router, private modalBoxService: ModalBoxService,
-                private healthCheckService: HealthCheckService) {
+                private healthCheckService: HealthCheckService, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -51,7 +52,9 @@ export class HeaderComponent implements OnInit {
 
     public connect(): void {
 
-        this.rpcService.connect(this.host, this.port, this.username, this.password).then();
+        this.rpcService.connect(this.host, this.port, this.username, this.password).catch( err => {
+            this.notificationsService.error('Failed to Connect', err.error.message);
+        });
     }
 
     public disconnect(): void {

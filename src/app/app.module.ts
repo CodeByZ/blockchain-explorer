@@ -68,7 +68,7 @@ const routes: Routes = [
             progressBar: true,
             newestOnTop: true,
             positionClass: 'toast-bottom-right',
-            timeOut: 2500,
+            timeOut: 4000,
         }),
         ContextMenuModule.forRoot({
             useBootstrap4: true,

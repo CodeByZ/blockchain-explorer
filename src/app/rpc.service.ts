@@ -70,11 +70,7 @@ export class RpcService {
                 })
                 .catch(error => {
                     this.connectedSubject.next(ConnectionStatus.DISCONNECTED);
-                    console.error(error);
-                    reject({
-                        connected: false,
-                        message: error
-                    });
+                    reject(error);
                 });
         });
     }
@@ -94,10 +90,7 @@ export class RpcService {
                 .catch(error => {
                     this.connectedSubject.next(ConnectionStatus.CONNECTED);
                     console.error(error);
-                    reject({
-                        connected: true,
-                        message: error
-                    });
+                    reject(error);
                 });
         });
     }
