@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {LocalStorageService} from "./local-storage.service";
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {BlockchainInfo} from "./bitcoin-types";
+import {Block, BlockchainInfo} from "./bitcoin-types";
 
 export enum ConnectionStatus {
     DISCONNECTED,
@@ -26,6 +26,7 @@ export class RpcService {
     private connectEndpoint: string = environment.endpoints.connect;
     private disconnectEndpoint: string = environment.endpoints.disconnect;
     private getBlockchainInfoEndpoint: string = environment.endpoints.getBlockchainInfo;
+    private getBlockEndpoint: string = environment.endpoints.getBlock;
     private rpcProxyBaseUrl: string = environment.rpcProxyBaseUrl;
 
     private host: string;
@@ -99,6 +100,13 @@ export class RpcService {
 
         return this.httpClient
             .get<BlockchainInfo>(this.rpcProxyBaseUrl + this.getBlockchainInfoEndpoint, {})
+            .toPromise();
+    }
+
+    public getBlock(blockId: string): Promise<Block> {
+
+        return this.httpClient
+            .get<Block>(this.rpcProxyBaseUrl + this.getBlockEndpoint + '/' + blockId, {})
             .toPromise();
     }
 

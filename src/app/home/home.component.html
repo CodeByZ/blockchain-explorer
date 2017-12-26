@@ -1,6 +1,7 @@
 <div class="container">
     <div class="jumbotron">
         <h4 class="text-center">Search for something</h4>
+        <h6 class="text-center">(Currently only blocks, in next version we'll add addresses and transactions)</h6>
         <p>&nbsp;</p>
         <div class="container">
             <div class="form-group row">
@@ -21,10 +22,14 @@
         </div>
         <div>
             <p>&nbsp;</p>
-            <h5 class="text-center" *ngIf="searchCount > 0">Searching... <i class="fa fa-refresh fa-spin fa-fw"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="searchExecuted && !documents.length && searchCount == 0">No documents found <i class="fa fa-frown-o" aria-hidden="true"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="!searchExecuted">Let's find some documents <i class="fa fa-search" aria-hidden="true"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="blocks.length && searchCount == 0">Found {{blocks.length}} blocks<span *ngIf="documents.length > 1">s</span> <i class="fa fa-smile-o" aria-hidden="true"></i></h5>
+            <h5 class="text-center" *ngIf="searching">Searching... <i class="fa fa-refresh fa-spin fa-fw"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="searchExecuted && !searchTokens.length && !searching">Nothing found <i class="fa fa-frown-o" aria-hidden="true"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="!searchExecuted">Let's find some blocks <i class="fa fa-search" aria-hidden="true"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="blocks.length && !searching">Found {{blocks.length}} block<span *ngIf="blocks.length > 1">s</span> <i class="fa fa-link" aria-hidden="true"></i></h5>
         </div>
+    </div>
+
+    <div *ngFor="let block of blocks">
+        <div>{{block | json}}</div>
     </div>
 </div>
