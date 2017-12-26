@@ -9,13 +9,13 @@
                 <div class="col-sm-8">
                     <div class="input-clear-group">
                         <tag-input class="form-control" [(ngModel)]="searchTokens" id="searchTokens" theme="minimal"
-                                   [secondaryPlaceholder]="secondaryPlaceholder" [placeholder]="placeholder"></tag-input>
+                                   [secondaryPlaceholder]="secondaryPlaceholder" [placeholder]="placeholder" [disable]="searching"></tag-input>
                         <i *ngIf="searchTokens.length" class="clear-input fa fa-remove" (click)="clearSearch()"></i>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <button class="btn btn-outline-success btn-primary" [disabled]="!searchTokens.length"
-                            (click)="runSearch()">Search
+                            (click)="!searching && runSearch()" [disabled]="searching">Search
                     </button>
                 </div>
             </div>
