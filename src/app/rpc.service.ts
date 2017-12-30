@@ -5,7 +5,8 @@ import {Observable} from "rxjs/Observable";
 import {LocalStorageService} from "./local-storage.service";
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Block, BlockchainInfo} from "./bitcoin-types";
+import {Block, BlockchainInfo, Transaction} from "./bitcoin-types";
+import {CacheService} from "./cache.service";
 
 export enum ConnectionStatus {
     DISCONNECTED,
@@ -27,6 +28,7 @@ export class RpcService {
     private disconnectEndpoint: string = environment.endpoints.disconnect;
     private getBlockchainInfoEndpoint: string = environment.endpoints.getBlockchainInfo;
     private getBlockEndpoint: string = environment.endpoints.getBlock;
+    private getTransactionEndpoint: string = environment.endpoints.getRawTransaction;
     private rpcProxyBaseUrl: string = environment.rpcProxyBaseUrl;
 
     private host: string;
@@ -34,7 +36,7 @@ export class RpcService {
 
     private static LOGIN_DETAILS_STORAGE_KEY: string = 'loginDetails';
 
-    constructor(public zone: NgZone, private httpClient: HttpClient, private localStorage: LocalStorageService) {
+    constructor(public zone: NgZone, private httpClient: HttpClient, private localStorage: LocalStorageService, private cacheService: CacheService) {
 
         localStorage.getItem(RpcService.LOGIN_DETAILS_STORAGE_KEY)
             .then(details => {
@@ -107,7 +109,25 @@ export class RpcService {
 
         return this.httpClient
             .get<Block>(this.rpcProxyBaseUrl + this.getBlockEndpoint + '/' + blockId, {})
-            .toPromise();
+            .toPromise()
+            .then(block => {
+                return this.cacheService
+                    .setBlock(block.hash, block)
+                    .then(() => block)
+            });
+    }
+
+
+    public getTransaction(txId: string): Promise<Transaction> {
+
+        return this.httpClient
+            .get<Transaction>(this.rpcProxyBaseUrl + this.getTransactionEndpoint + '/' + txId, {})
+            .toPromise()
+            .then(transaction => {
+                return this.cacheService
+                    .setTransaction(txId, transaction)
+                    .then(() => transaction)
+            });
     }
 
     public getConnectedObservable(): Observable<ConnectionStatus> {

@@ -1,29 +1,17 @@
-<div class="explorer-split">
-    <split direction="horizontal" (dragEnd)="onDragEnd(-1, $event)">
-        <split-area [size]="config.columns[0].size" *ngIf="config.columns[0].visible">
-            <div class="controls">
-                <button title="Expand all" class="btn btn-outline-secondary btn-sm" (click)="tree.treeModel.expandAll()">
-                    <i class="fa fa-expand" aria-hidden="true"></i>
-                </button>
-                <button title="Collapse all" class="btn btn-outline-secondary btn-sm" (click)="tree.treeModel.collapseAll()">
-                    <i class="fa fa-compress" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="tree">
-                <tree-root #tree [focused]="false" [nodes]="nodes" [options]="treeOptions" (activate)="nodeClicked($event)">
-                    <ng-template #treeNodeTemplate let-node let-index="index">
-                        <span><i class="fa" [ngClass]="node.data.className" aria-hidden="true"></i> {{ node.data.name }}</span>
-                        <i *ngIf="node.data.loading" class="fa fa-refresh fa-spin fa-fw"></i>
-                    </ng-template>
-                </tree-root>
-            </div>
-            <div class="dropdown-menu context-menu" #contextMenu>
-                <a class="dropdown-item" (click)="refreshNode()">Refresh node</a>
-                <a class="dropdown-item" (click)="refreshChildren()">Refresh children</a>
-            </div>
-        </split-area>
-        <split-area [size]="config.columns[1].size" *ngIf="config.columns[1].visible">
-            show data here...
-        </split-area>
-    </split>
+<div *ngIf="block" class="container">
+    <div class="row h5">
+        <div class="col col-md-6 text-left">
+            <a [routerLink]="['/explorer', block.previousblockhash]">
+                <i class="fa fa-chevron-circle-left"></i>
+                Previous Block
+            </a>
+        </div>
+        <div class="col col-md-6 text-right">
+            <a [routerLink]="['/explorer', block.nextblockhash]">
+                Next Block
+                <i class="fa fa-chevron-circle-right"></i>
+            </a>
+        </div>
+    </div>
 </div>
+<block-details [block]="block"></block-details>

@@ -33,13 +33,16 @@ import {FilterPipeModule} from "ngx-filter-pipe";
 import {ContainsFilterPipe} from './contains-filter.pipe';
 import {ContextMenuModule} from "ngx-contextmenu";
 import {BlockchainInfoComponent} from './blockchain-info/blockchain-info.component';
+import { BlockDetailsComponent } from './explorer/block-details/block-details.component';
+import {CacheService} from "./cache.service";
+import { TransactionDetailsComponent } from './explorer/transaction-details/transaction-details.component';
 
 const routes: Routes = [
     {'path': '', 'redirectTo': '/', 'pathMatch': 'full'},
     {'path': 'welcome', 'component': WelcomeComponent},
     {'path': 'home', 'component': HomeComponent, canActivate: [CanActivateViaAuthGuard]},
     {'path': 'explore', 'component': ExplorerComponent, canActivate: [CanActivateViaAuthGuard]},
-    {'path': 'explore/:uuid', 'component': ExplorerComponent, canActivate: [CanActivateViaAuthGuard]},
+    {'path': 'explorer/:hash', 'component': ExplorerComponent, canActivate: [CanActivateViaAuthGuard]},
     {'path': 'blockchain-info', 'component': BlockchainInfoComponent, canActivate: [CanActivateViaAuthGuard]},
 ];
 
@@ -54,6 +57,8 @@ const routes: Routes = [
         ExplorerComponent,
         ContainsFilterPipe,
         BlockchainInfoComponent,
+        BlockDetailsComponent,
+        TransactionDetailsComponent,
     ],
     imports: [
         RouterModule.forRoot(routes),
@@ -88,7 +93,7 @@ const routes: Routes = [
     ],
     providers: [
         WindowRefService, ModalBoxService, LocalStorageService, ContainsFilterPipe, RpcService,
-        HealthCheckService, CanActivateViaAuthGuard, NotificationsService, MapToIterablePipe,
+        HealthCheckService, CanActivateViaAuthGuard, NotificationsService, MapToIterablePipe, CacheService,
         {provide: ErrorHandler, useClass: GlobalErrorHandler},
     ],
     bootstrap: [AppComponent]

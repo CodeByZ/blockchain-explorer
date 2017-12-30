@@ -1,0 +1,43 @@
+<div *ngIf="block" class="container">
+
+    <h4 class="card-header">Block Details</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Block Hash</td>
+            <td>{{ block.hash }}</td>
+        </tr>
+        <tr>
+            <td>Block Height</td>
+            <td>{{block.height | number}}</td>
+        </tr>
+        <tr>
+            <td>No. of Transactions</td>
+            <td>{{block.tx.length | number}}</td>
+        </tr>
+        <tr>
+            <td>Block Size</td>
+            <td>{{block.size | number}} Byte</td>
+        </tr>
+        <tr>
+            <td>Nonce</td>
+            <td>{{block.nonce | number}}</td>
+        </tr>
+        <tr>
+            <td>Block Time</td>
+            <td>{{block.time * 1000 | date}}</td>
+        </tr>
+    </table>
+
+    <h4 class="card-header">Included Transactions</h4>
+
+    <table class="table table-hover">
+        <tr *ngFor="let txId of block.tx">
+            <td>
+                <a class="force-link" *ngIf="!isTxCached(txId)" (click)="getTransaction(txId)">{{txId}}</a>
+                <div *ngIf="isTxLoading(txId)">Loading... <i class="fa fa-cog fa-spin fa-fw"></i></div>
+                <transaction-details *ngIf="isTxCached(txId)" [transaction]="transactions[txId]"></transaction-details>
+            </td>
+        </tr>
+    </table>
+
+</div>

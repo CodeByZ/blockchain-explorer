@@ -55,7 +55,7 @@ export type Block = {
     version: number;
     versionHex: string;
     merkleroot: string;
-    tx: Transaction[];
+    tx: string[];
     time: number;
     mediantime: number;
     nonce: number;

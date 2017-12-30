@@ -1,0 +1,55 @@
+<div *ngIf="transaction" class="card card-block">
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Transaction ID:</td>
+            <td>{{transaction.txid}}</td>
+        </tr>
+        <tr>
+            <td>Size:</td>
+            <td>{{transaction.size}} Byte</td>
+        </tr>
+        <tr>
+            <td>Total Transacted:</td>
+            <td>{{total | number}} <i class="fa fa-bitcoin"></i></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="row">
+                    <div class="col col-md-6">
+                        <div class="row">
+                            <div class="col col-md-12">
+                                <h6>From TX ID (index)</h6>
+                            </div>
+                        </div>
+                        <div *ngIf="isCoinbase" class="row">
+                            <div class="col col-md-12">
+                                Coinbase Transaction
+                            </div>
+                        </div>
+                        <div *ngIf="!isCoinbase">
+                            <div class="row" *ngFor="let from of transacted.from">
+                                <div class="col col-md-12">
+                                    {{from.txid}} ({{from.vout}})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="row">
+                            <div class="col col-md-8 h6">To Address</div>
+                            <div class="col col-md-4 h6"><i class="fa fa-bitcoin"></i></div>
+                        </div>
+                        <div class="row" *ngFor="let to of transacted.to">
+                            <div class="col col-md-8">{{to.addresses}}</div>
+                            <div class="col col-md-4">{{to.value | number}}</div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

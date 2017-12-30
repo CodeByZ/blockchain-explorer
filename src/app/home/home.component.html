@@ -9,7 +9,8 @@
                 <div class="col-sm-8">
                     <div class="input-clear-group">
                         <tag-input class="form-control" [(ngModel)]="searchTokens" id="searchTokens" theme="minimal"
-                                   [secondaryPlaceholder]="secondaryPlaceholder" [placeholder]="placeholder" [disable]="searching"></tag-input>
+                                   [secondaryPlaceholder]="secondaryPlaceholder" [placeholder]="placeholder"
+                                   [disable]="searching"></tag-input>
                         <i *ngIf="searchTokens.length" class="clear-input fa fa-remove" (click)="clearSearch()"></i>
                     </div>
                 </div>
@@ -23,13 +24,33 @@
         <div>
             <p>&nbsp;</p>
             <h5 class="text-center" *ngIf="searching">Searching... <i class="fa fa-refresh fa-spin fa-fw"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="searchExecuted && !searchTokens.length && !searching">Nothing found <i class="fa fa-frown-o" aria-hidden="true"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="!searchExecuted">Let's find some blocks <i class="fa fa-search" aria-hidden="true"></i></h5>
-            <h5 class="text-center animated fadeInDown" *ngIf="blocks.length && !searching">Found {{blocks.length}} block<span *ngIf="blocks.length > 1">s</span> <i class="fa fa-link" aria-hidden="true"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="searchExecuted && !searchTokens.length && !searching">
+                Nothing found <i class="fa fa-frown-o" aria-hidden="true"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="!searchExecuted">Let's find some blocks <i
+                    class="fa fa-search" aria-hidden="true"></i></h5>
+            <h5 class="text-center animated fadeInDown" *ngIf="blocks.length && !searching">Found {{blocks.length}}
+                block<span *ngIf="blocks.length > 1">s</span> <i class="fa fa-link" aria-hidden="true"></i></h5>
         </div>
     </div>
 
-    <div *ngFor="let block of blocks">
-        <div>{{block | json}}</div>
+    <div *ngIf="blocks.length">
+        <table class="table table-hover">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Hash</th>
+                <th>Height</th>
+                <th>Confirmations</th>
+                <th>Transactions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let block of blocks">
+                <td><a [routerLink]="['/explorer', block.hash]">{{block.hash}}</a></td>
+                <td>{{block.height | number}}</td>
+                <td>{{block.confirmations | number}}</td>
+                <td>{{block.tx.length | number}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
