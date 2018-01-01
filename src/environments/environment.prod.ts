@@ -13,8 +13,4 @@ export const environment = {
         getRawTransaction: '/get-raw-transaction'
     },
     healthCheckPollIntervalMs: 5000,
-    treeIcons: {
-        "?": "fa-hashtag",
-        "??": "fa-puzzle-piece"
-    }
 };

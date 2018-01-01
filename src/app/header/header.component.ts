@@ -13,7 +13,7 @@ import {NotificationsService} from "../notifications.service";
 })
 export class HeaderComponent implements OnInit {
 
-    public host: string = '192.168.1.7';
+    public host: string = '192.168.1.13';
     public port: number = 1972;
 
     public username: string = 'bitcoinrpc';

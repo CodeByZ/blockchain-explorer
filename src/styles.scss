@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~angular-tree-component/dist/angular-tree-component.css';
 
+$leading-color: #005d08;
+
 body {
     margin-top: 80px !important;
     margin-bottom: 40px !important;
@@ -79,4 +81,8 @@ button {
     &:hover {
         color: #0056b3 !important;;
     }
+}
+
+.fa {
+    color: $leading-color;
 }

@@ -1,3 +1,5 @@
+@import '../../styles.scss';
+
 :host {
     .dropdown-toggle {
         background: none;
@@ -19,7 +21,7 @@
 
     .brand-name {
         display: inline-block;
-        color: #000140;
+        color: $leading-color;
         font-weight: bold;
     }
 
