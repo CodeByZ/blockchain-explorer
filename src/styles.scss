@@ -73,6 +73,8 @@ a.action-icon-link {
 
 button {
     cursor: pointer;
+    background-color: $leading-color;
+    border-color: $leading-color;
 }
 
 .force-link {
