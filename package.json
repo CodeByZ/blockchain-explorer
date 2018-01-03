@@ -1,6 +1,8 @@
 {
-  "name": "frontend",
-  "version": "0.0.0",
+  "name": "blockchain-explorer",
+  "author": "Zacky Pickholz <zacky@codebyz.com>",
+  "description": "A simple blockchain explorer web app",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
