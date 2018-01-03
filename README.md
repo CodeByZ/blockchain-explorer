@@ -21,3 +21,4 @@ It communicates with and queries the Bitcoin core full node via [this JSON RPC p
 ##### Notes
 
 * The application by default will attempt to communicate with the proxy server locally on port 8080. If you wish to install the proxy on a different machine simply update the `rpcProxyBaseUrl` configuration property accordingly in `environment.ts` file.
+* In order to build the project for production/distribution simply run `npm run build`.
